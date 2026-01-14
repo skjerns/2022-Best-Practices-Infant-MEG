@@ -116,12 +116,12 @@ if not op.isfile(pos_fname):
     del chpi_locs, head_pos
 
 ###############################################################################
-# Apply tSSS with movement compensation to time-weighted average head pos, see
+# Apply teSSS with movement compensation to time-weighted average head pos, see
 # https://mne.tools/stable/auto_examples/preprocessing/movement_compensation.html
 # https://mne.tools/stable/auto_examples/preprocessing/movement_detection.html
 
 if not op.isfile(raw_sss_fname):
-    print('Applying tSSS with movement compensation to '
+    print('Applying teSSS with movement compensation to '
           'time-weighted average head position ...')
     r = raw.copy().load_data()
     mne.chpi.filter_chpi(r, t_window='auto', verbose=True)
@@ -129,7 +129,7 @@ if not op.isfile(raw_sss_fname):
     # (there is leakage slightly lower than this because the signals are
     # modulated by movement, so we filter slightly lower)
     r.filter(None, 75, h_trans_bandwidth=5)
-    e = erm.copy().load_data()
+    e = erm.copy().load_data()  # empty room measurement
     e.filter(None, 40)
     e.del_proj()
     proj = mne.compute_proj_raw(
